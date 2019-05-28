@@ -1,0 +1,45 @@
+body{
+    background-color: #F1F3FA;
+}
+.tab-pane{
+    background-color: #F1F3FA;
+}
+.swal2-container {
+    z-index: 999999999999  !important;
+}
+.pac-container {
+    z-index: 999999 !important;
+}
+
+/*quello sotto è per l'infowindow che senno veniva con le scropl bar laterali e sopra*/
+.gm-style-iw {
+    width: 200px; 
+    min-height: 200px;
+    height:300px;
+    min-width:200px;
+}
+
+
+
+.accordion-head i{
+    font-size: 2.5em;
+    float: right;
+}
+
+.accordion-head > .collapsed > i:before{
+    content: "\f105";
+}
+
+.btn_delete_instrument:hover{
+    transform: scale(1.1);
+}
+.btn_modify_instrument:hover{
+    transform: scale(1.1);
+}
+
+
+#found_group_number{
+    font-size: 35px;
+    color:red;
+    
+}

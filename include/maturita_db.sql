@@ -1,0 +1,109 @@
+DROP DATABASE IF EXISTS maturita_1;
+CREATE DATABASE maturita_1;
+use maturita_1;
+
+CREATE TABLE users(
+	id  INTEGER PRIMARY KEY AUTO_INCREMENT,
+	nickname VARCHAR(60) ,
+	name VARCHAR(60) NOT NULL ,
+	surname VARCHAR(60) NOT NULL,
+	born_date  DATE NOT NULL,
+	email VARCHAR(60)  UNIQUE NOT NULL,
+	password VARCHAR(60) NOT NULL,
+	verify_token VARCHAR(60)  NULL DEFAULT NULL,
+	remember_token VARCHAR(64)  NULL DEFAULT NULL,
+	status  INTEGER NOT NULL,
+	lat  DECIMAL(10,8) NOT NULL,
+	lng  DECIMAL(11,8) NOT NULL,
+	place VARCHAR(60) NOT NULL,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE groups(
+	id  INTEGER PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(60) NOT NULL ,
+	lat  DECIMAL(10,8) NOT NULL ,
+	lng  DECIMAL(11,8) NOT NULL ,
+	place VARCHAR(60) NOT NULL ,
+        creator_id INTEGER ,
+        FOREIGN KEY (creator_id) REFERENCES users(id),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE g_photos(
+	id  INTEGER PRIMARY KEY AUTO_INCREMENT,
+	path VARCHAR(60) NOT NULL,
+	description VARCHAR(60) ,
+	group_id  INTEGER,
+	FOREIGN KEY (group_id) REFERENCES groups(id),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE u_photos(
+	id  INTEGER PRIMARY KEY AUTO_INCREMENT,
+	path VARCHAR(60) ,
+	description VARCHAR(60) ,
+	user_id  INTEGER,
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE group_user(
+	id  INTEGER PRIMARY KEY AUTO_INCREMENT,
+	privilege  ENUM('creator','accepted','request','refused'),
+	user_id  INTEGER,
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	group_id  INTEGER,
+	FOREIGN KEY (group_id) REFERENCES groups(id),
+	UNIQUE(user_id,group_id),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
+);
+CREATE TABLE events(
+	id  INTEGER PRIMARY KEY AUTO_INCREMENT,
+	title VARCHAR(60) NOT NULL ,
+        description VARCHAR(160) NOT NULL ,
+	event_date  DATE NOT NULL ,
+	start_hour  TIME NOT NULL ,
+	end_hour  TIME NOT NULL ,
+	place VARCHAR(60) NOT NULL ,
+	lat  DECIMAL(10,8) NOT NULL ,
+	lng  DECIMAL(11,8) NOT NULL ,
+	group_user_id  INTEGER,
+	FOREIGN KEY (group_user_id) REFERENCES group_user(id),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE instruments(
+	id  INTEGER PRIMARY KEY AUTO_INCREMENT,
+	name VARCHAR(60) NOT NULL ,
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE instrument_user(
+	id  INTEGER PRIMARY KEY AUTO_INCREMENT,
+	start_date  DATE NOT NULL ,
+	note VARCHAR(120) NOT NULL ,
+	user_id  INTEGER,
+	FOREIGN KEY (user_id) REFERENCES users(id),
+	instrument_id  INTEGER,
+	FOREIGN KEY (instrument_id) REFERENCES instruments(id),
+        UNIQUE(user_id,instrument_id),
+	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+	updated_at TIMESTAMP NULL ON UPDATE CURRENT_TIMESTAMP
+);
+
+CREATE TABLE password_resets(
+        email varchar(60),
+        token varchar(60),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        user_id integer,
+        FOREIGN KEY (user_id) REFERENCES users(id),
+        INDEX password_resets_email_index(email)
+);
