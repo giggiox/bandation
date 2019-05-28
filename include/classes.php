@@ -3,9 +3,9 @@
 use PHPMailer\PHPMailer\PHPMailer;
 class Google {
 
-    static $gmaps_key = "AIzaSyBkmgV07XbvIN3qR7ORyPWfsMjGhEEpd64";
-    static $public_recaptcha_key = "6Lfjhm8UAAAAAAUAQ5vcBdTL8dpfcqhwjpszY6r7";
-    private static $secret_recaptcha_key = "6Lfjhm8UAAAAAGydSiu28RrO7nVBXvHqWM8lifXM";
+    static $gmaps_key = "*********";
+    static $public_recaptcha_key = "****";
+    private static $secret_recaptcha_key = "*********";
 
     static function ValidatePlace($place) {
         $place = str_replace(' ', '', $place); //geocode accetta solo address senza spazi
