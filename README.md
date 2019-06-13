@@ -75,13 +75,13 @@ if(!isset($_SESSION["_token"]) || $_SESSION["_token"] != $_POST["_token"]){
 unset($_SESSION["_token"]);
 ```
 in questo modo non è possibile creare algoritmi di bruteforce poichè  quando invieremo la richiesta al server questa sarà così formata:
-<p align="center"><img src="https://github.com/giggiox/bandation/blob/master/foto/10.png"></p>
+<p align="center"><img src="https://github.com/giggiox/bandation/blob/master/foto/10.PNG"></p>
 
 e siccome il token csrf è impossibile da indovinare poichè generato in modo random, qualsiasi algoritmo di bruteforce sarà così inutile.
 
 
 Tuttavia un altro attacco che si potrebbe verificare è il Mysql Injection. Si tratta di un attacco per il quale viene "iniettato" del codice SQL all'interno del database.
-<p align="center"><img src="https://github.com/giggiox/bandation/blob/master/foto/11.png"></p>
+<p align="center"><img src="https://github.com/giggiox/bandation/blob/master/foto/11.PNG"></p>
 
 eseguendo questo semplice script nella form di login infatti saremo direttamente autenticati come amministratori.
 
