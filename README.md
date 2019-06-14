@@ -170,7 +170,7 @@ la classe Google sarà così:
 ```php
 class Google {
 
-    static $gmaps_key = "secret";
+    static $gmaps_key = "chiave";
     
     static function ValidatePlace($place) {
         $place = str_replace(' ', '', $place); //geocode accetta solo address senza spazi
