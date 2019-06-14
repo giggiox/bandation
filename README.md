@@ -43,7 +43,7 @@ Molte volte quando si sviluppano sistemi utilizzando php non si tiene nella dovu
 
 Infatti la versione che ho sviluppato con il framework Laravel (http://github.com/giggiox/bandation_laravel)  ha già integrate determinate funzionalità che in questa versione sviluppata in php ho docuto replicare scrivendone il relativo codice.
 
-## LOGIN
+## password
 
 tutte le password fornite dall'utente durante la fase di registrazione o successive variazioni vengono memorizzate all'interno del database in modo criptato.
 
@@ -57,7 +57,7 @@ BCRYPT a differenza di altri algoritmi spesso utilizzati tipo md5, sha e derivat
 <p align="center"><img src="https://github.com/giggiox/bandation/blob/master/foto/9.png"></p>
 ma anche se con questo algoritmo gli attachi bruteforce sono più lenti, sono comunque possibili sia con un esecuzione per tentativi che tramite dizionario, come ho potuto verificare codificando uno script in python: www.github.com/giggiox/bruteforce_bandation
 
-
+## protezione CSRF
 Per annullare la possibilità di attacchi bruteforce nel login ho implementato una protezione CSRF(Cross-site request forgery) implementando uno script lato server:
 
 ###### nella form di login:
@@ -79,7 +79,7 @@ in questo modo non è possibile creare algoritmi di bruteforce poichè  quando i
 
 e siccome il token csrf è impossibile da indovinare poichè generato in modo random, qualsiasi algoritmo di bruteforce sarà così inutile.
 
-
+## SQL injection
 Tuttavia un altro attacco che si potrebbe verificare è il Mysql Injection. Si tratta di un attacco per il quale viene "iniettato" del codice SQL all'interno del database.
 <p align="center"><img src="https://github.com/giggiox/bandation/blob/master/foto/11.PNG"></p>
 
