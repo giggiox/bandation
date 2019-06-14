@@ -38,6 +38,7 @@ Inoltre per il sistema di reset delle password il progetto si appoggia sempre su
 modello concettuale finale:
 <p align="center"><img src="https://github.com/giggiox/bandation/blob/master/foto/12.PNG"></p>
 
+il modello logico: https://github.com/giggiox/bandation/blob/master/include/maturita_db.sql
 
 ## indirizzo sito: http://bandation.it
 
