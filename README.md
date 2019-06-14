@@ -140,25 +140,26 @@ inizialmente invio una richiesta ai server di google con il luogo inserito dall'
 
 ```php
 static function ValidatePlace($place) {
-        $place = str_replace(' ', '', $place); //geocode accetta solo address senza spazi
+        $place = str_replace(' ', '', $place);
         $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$place}&key=" . self::$gmaps_key;
 }
 ```
 ne leggo la risposta inviata dai server di google in formato JSON  che ci informa dell'esistenza o meno del luogo inserito indicando eventualmente il nome corretto, la latitudine e la longitudine.
 
 ```php
-$resp_json = file_get_contents(urldecode($url));
-$resp = json_decode($resp_json, true);
+$resp_json = file_get_contents(urldecode($url));  //richiesta al server google
+$resp = json_decode($resp_json, true);//viene letta la risposta in formato JSON
 ```
 per ottenere le informazioni richieste ho dovuto codificare l'interpretazione del JSON che è arrivato e fare il parsing
 ```php
+//inizio parsing risposta
 if ($resp['status'] == 'OK') {
     $lat = isset($resp['results'][0]['geometry']['location']['lat']) ? $resp['results'][0]['geometry']['location']['lat'] : "";
     $lng = isset($resp['results'][0]['geometry']['location']['lng']) ? $resp['results'][0]['geometry']['location']['lng'] : "";
     $formatted_address = isset($resp['results'][0]['formatted_address']) ? $resp['results'][0]['formatted_address'] : "";
     if ($lat && $lng && $formatted_address) {
         $data_arr = ["lat" => $lat, "lng" => $lng, "place" => $formatted_address];
-        return $data_arr;
+        return $data_arr;//return un array chiave valore dove le chiavi sono lat lng e place
     }
 } else {
     return false
@@ -173,16 +174,13 @@ class Google {
     static $gmaps_key = "chiave";
     
     static function ValidatePlace($place) {
-        $place = str_replace(' ', '', $place); //geocode accetta solo address senza spazi
+        $place = str_replace(' ', '', $place);
         $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$place}&key=" . self::$gmaps_key;
         $url .= "&sensor=false";
-
-        //dd($url);
-        $resp_json = file_get_contents(urldecode($url));
-        $resp = json_decode($resp_json, true);
-
-        //dd($url);
-
+	
+        $resp_json = file_get_contents(urldecode($url)); //richiesta al server google
+        $resp = json_decode($resp_json, true); //viene letta la risposta in formato JSON
+	//inizio parsing risposta
         if ($resp['status'] == 'OK') {
             $lat = isset($resp['results'][0]['geometry']['location']['lat']) ? $resp['results'][0]['geometry']['location']['lat'] : "";
             $lng = isset($resp['results'][0]['geometry']['location']['lng']) ? $resp['results'][0]['geometry']['location']['lng'] : "";
@@ -190,8 +188,7 @@ class Google {
 
             if ($lat && $lng && $formatted_address) {
                 $data_arr = ["lat" => $lat, "lng" => $lng, "place" => $formatted_address];
-                //array_push($data_arr,["lat"=>$lat,"lng"=>$lng,"place"=>$formatted_address]);
-                return $data_arr;
+                return $data_arr; //return un array chiave valore dove le chiavi sono lat lng e place
             }
         } else {
             return false;
