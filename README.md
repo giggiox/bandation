@@ -114,6 +114,24 @@ static function isRecaptchaValid($captcha) {
 }
 ```
 
+la classe Google risulta così:
+```php
+class Google {
+    static $public_recaptcha_key = "6Lfjhm8UAAAAAAUAQ5vcBdTL8dpfcqhwjpszY6r7";
+    private static $secret_recaptcha_key = "secret";
+    
+    static function isRecaptchaValid($captcha) {
+        $url="https://www.google.com/recaptcha/api/siteverify?secret=". self::$secret_recaptcha_key."&response=".$captcha;
+        $verifyResponse = file_get_contents($url);
+        $responseData = json_decode($verifyResponse);
+        return $responseData->success;
+    }
+
+}
+```
+
+
+
 # COLLEGAMENTI CON ALTRI SERVIZI
 ## geolocalizzazione
 per validare un luogo inserito dall'utente ho dovuto implementare questo metodo all'interno della classe Google.
@@ -144,6 +162,41 @@ if ($resp['status'] == 'OK') {
     }
 } else {
     return false
+}
+```
+
+la classe Google sarà così:
+
+```php
+class Google {
+
+    static $gmaps_key = "secret";
+    
+    static function ValidatePlace($place) {
+        $place = str_replace(' ', '', $place); //geocode accetta solo address senza spazi
+        $url = "https://maps.googleapis.com/maps/api/geocode/json?address={$place}&key=" . self::$gmaps_key;
+        $url .= "&sensor=false";
+
+        //dd($url);
+        $resp_json = file_get_contents(urldecode($url));
+        $resp = json_decode($resp_json, true);
+
+        //dd($url);
+
+        if ($resp['status'] == 'OK') {
+            $lat = isset($resp['results'][0]['geometry']['location']['lat']) ? $resp['results'][0]['geometry']['location']['lat'] : "";
+            $lng = isset($resp['results'][0]['geometry']['location']['lng']) ? $resp['results'][0]['geometry']['location']['lng'] : "";
+            $formatted_address = isset($resp['results'][0]['formatted_address']) ? $resp['results'][0]['formatted_address'] : "";
+
+            if ($lat && $lng && $formatted_address) {
+                $data_arr = ["lat" => $lat, "lng" => $lng, "place" => $formatted_address];
+                //array_push($data_arr,["lat"=>$lat,"lng"=>$lng,"place"=>$formatted_address]);
+                return $data_arr;
+            }
+        } else {
+            return false;
+        }
+    }
 }
 ```
 
