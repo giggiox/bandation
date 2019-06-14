@@ -35,6 +35,9 @@ Inoltre per il sistema di reset delle password il progetto si appoggia sempre su
 
 <p align="center"><img src="https://github.com/giggiox/bandation/blob/master/foto/8.PNG"></p>
 
+modello concettuale finale:
+<p align="center"><img src="https://github.com/giggiox/bandation/blob/master/foto/12.PNG"></p>
+
 
 ## indirizzo sito: http://bandation.it
 
